@@ -28,5 +28,7 @@ interface NewsAPI {
         apiKey : String = API_KEY
     ):Response<NewsResponse>
 
+    abstract fun getHeadlines(countryCode: String, pageNumber: Int): Any
+
     )
 }
