@@ -6,11 +6,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.newsprojectpractice"
+    namespace = "com.example.thenewsapplication"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
-        applicationId = "com.example.newsprojectpractice"
+        applicationId = "com.example.thenewsapplication"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
