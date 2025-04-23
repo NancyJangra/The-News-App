@@ -38,7 +38,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
         // Set up FAB click listener
         binding.fab.setOnClickListener {
-            viewModel.addToFavourites(article)
+            newsViewModel.saveArticle(article)
             Snackbar.make(view, "Article saved to favorites", Snackbar.LENGTH_SHORT).show()
         }
     }
