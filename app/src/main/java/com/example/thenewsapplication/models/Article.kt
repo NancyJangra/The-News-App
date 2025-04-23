@@ -2,6 +2,7 @@ package com.example.thenewsapplication.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.thenewsapp.models.Source
 import java.io.Serializable
 
 
