@@ -12,6 +12,8 @@
     <string name="search_news">Search news...</string>
     <string name="search">Search.</string>
     <string name="search_results">Search results list</string>
+    <string name="fab_desc">Add to favorites</string>
+
 
 
 </resources>
