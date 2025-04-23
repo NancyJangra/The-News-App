@@ -49,7 +49,7 @@ class HeadlinesFragment : Fragment() {
 
         newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-               putSerializable("article", it)
+                putSerializable("article", it)
             }
             findNavController().navigate(R.id.action_headlinesFragment_to_articleFragment, bundle)
         }
@@ -82,66 +82,61 @@ class HeadlinesFragment : Fragment() {
         isLoading = false
     }
 
-        fun showProgressBar() {
-            binding.paginationProgressBar.visibility = View.VISIBLE
-            isLoading = true
-        }
+    fun showProgressBar() {
+        binding.paginationProgressBar.visibility = View.VISIBLE
+        isLoading = true
+    }
 
-        fun hideErrorMessage() {
-            itemHeadLinesError.visibility = View.INVISIBLE
-            isError = false
-        }
+    fun hideErrorMessage() {
+        itemHeadLinesError.visibility = View.INVISIBLE
+        isError = false
+    }
 
-        fun showErrorMessage(message: String) {
-            itemHeadLinesError.visibility = View.VISIBLE
-            errorText.text = message
-            isError = true
-        }
+    fun showErrorMessage(message: String) {
+        itemHeadLinesError.visibility = View.VISIBLE
+        errorText.text = message
+        isError = true
+    }
 
-        val scrollListener = object : RecyclerView.OnScrollListener() {
+    val scrollListener = object : RecyclerView.OnScrollListener() {
 
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
 
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
 
-                val isNoErrors = !isError
-                val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
-                val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
-                val isNotAtBeginning = firstVisibleItemPosition >= 0
-                val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
-                val shouldPageinate =
-                    isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
-                if (shouldPageinate) {
-                    newsViewModel.getHeadLines("Us")
-                    isScrolling = false
+            val isNoErrors = !isError
+            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
+            val shouldPageinate =
+                isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
+            if (shouldPageinate) {
+                newsViewModel.getHeadLines("Us")
+                isScrolling = false
 
-                }
-            }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    isScrolling = true
-                }
             }
         }
 
-            private fun setupHeadLinesRecycler() {
-                newsAdapter = NewsAdapter()
-                binding.recyclerHeadlines.apply {
-                    adapter = newsAdapter
-                    layoutManager = LinearLayoutManager(activity)
-                    addOnScrollListener(this@HeadlinesFragment.scrollListener)
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
             }
         }
+    }
+
+    private fun setupHeadLinesRecycler() {
+        newsAdapter = NewsAdapter()
+        binding.recyclerHeadlines.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(activity)
+            addOnScrollListener(this@HeadlinesFragment.scrollListener)
+        }
+    }
 }
-
-
-
-
-

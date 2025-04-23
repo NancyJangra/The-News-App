@@ -1,0 +1,54 @@
+Index: app/src/main/java/com/example/thenewsapplication/ui/fragments/FavouritesFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.thenewsapplication.ui.fragments\r\n\r\nimport android.os.Bundle\r\nimport androidx.fragment.app.Fragment\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport com.example.thenewsapplication.R\r\n\r\n\r\nclass FavouritesFragment : Fragment() {\r\n\r\n    }
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/thenewsapplication/ui/fragments/FavouritesFragment.kt b/app/src/main/java/com/example/thenewsapplication/ui/fragments/FavouritesFragment.kt
+--- a/app/src/main/java/com/example/thenewsapplication/ui/fragments/FavouritesFragment.kt	(revision b5f92e0189b8f494cdc1034654be82e6321f733f)
++++ b/app/src/main/java/com/example/thenewsapplication/ui/fragments/FavouritesFragment.kt	(date 1745242216254)
+@@ -5,9 +5,25 @@
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
++import com.example.newsprojectpractice.databinding.FragmentFavouritesBinding
++import com.example.thenewsapp.adapters.NewsAdapter
+ import com.example.thenewsapplication.R
++import com.example.thenewsapplication.ui.NewsViewModel
+ 
+ 
+ class FavouritesFragment : Fragment() {
++    lateinit var newsViewModel: NewsViewModel
++    lateinit var newsAdapter: NewsAdapter
++    lateinit var binding: FragmentFavouritesBinding
+ 
++    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
++        super.onViewCreated(view, savedInstanceState)
++        binding = FragmentFavouritesBinding.bind(view)
++    }
++    private fun setupFavouritesRecycler(){
++        newsAdapter = NewsAdapter()
++        binding.recyclerFavourites.apply { this: RecyclerView
++            adapter = newsAdapter
++            LayoutManager = LinearLayoutManager(activity)
++    }
+     }
+\ No newline at end of file
+Index: app/src/main/java/com/example/thenewsapplication/ui/fragments/HeadlinesFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.thenewsapplication.ui.fragments\r\n\r\nimport android.os.Bundle\r\nimport androidx.fragment.app.Fragment\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport com.example.thenewsapplication.R\r\n\r\n\r\nclass HeadlinesFragment : Fragment() {\r\n\r\n    }\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/thenewsapplication/ui/fragments/HeadlinesFragment.kt b/app/src/main/java/com/example/thenewsapplication/ui/fragments/HeadlinesFragment.kt
+--- a/app/src/main/java/com/example/thenewsapplication/ui/fragments/HeadlinesFragment.kt	(revision b5f92e0189b8f494cdc1034654be82e6321f733f)
++++ b/app/src/main/java/com/example/thenewsapplication/ui/fragments/HeadlinesFragment.kt	(date 1745242216306)
+@@ -10,5 +10,6 @@
+ 
+ class HeadlinesFragment : Fragment() {
+ 
++
+     }
+ 
