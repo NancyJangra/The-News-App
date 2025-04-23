@@ -2,12 +2,17 @@ package com.example.thenewsapplication.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +23,9 @@ import com.example.thenewsapplication.ui.NewsActivity
 import com.example.thenewsapplication.ui.NewsViewModel
 import com.example.thenewsapplication.util.Constants
 import com.example.thenewsapplication.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
+import com.example.thenewsapplication.util.Resource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -37,8 +45,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         binding = FragmentSearchBinding.bind(view)
         itemSearchError = view.findViewById(R.id.itemSearchError)
 
-        var inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)
-        val view: View = inflater.inflate(R.layout.item_error, null)
+        val inflater = LayoutInflater.from(requireContext())
+        val errorView = inflater.inflate(R.layout.item_error, null)
 
         retryButton = view.findViewById(R.id.retryButton)
         errorText = view.findViewById(R.id.errorText)
@@ -54,36 +62,65 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
 
 
-        var job: Job?= null
-        binding.searchEdit.addTextChangedListener(){editable ->
-            job?.cancel()
-            job = MainScope().launch {
-                delay(SEARCH_NEWS_TIME_DELAY)
-                editable?.let{
-                    if (editable.toString().isNotEmpty()){
-                        newsViewModel.searchNews(editable.toString())
+        var searchJob: Job? = null
+        val SEARCH_NEWS_TIME_DELAY = 500L // milliseconds
+
+        binding.searchEdit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchJob?.cancel()
+                searchJob = CoroutineScope(Dispatchers.Main).launch {
+                    s?.toString()?.let { query ->
+                        if (query.isNotEmpty()) {
+                            delay(SEARCH_NEWS_TIME_DELAY)
+                            newsViewModel.searchNews(query.trim())
+                        }
                     }
                 }
             }
-        }
 
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
-        newsViewModel.searchNews.observe(){}
+        newsViewModel.searchNews.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    hideErrorMessage()
+                    response.data?.let { newsResponse ->
+                        newsAdapter.differ.submitList(newsResponse.articles.toList())
+                        val totalPages = newsResponse.totalResults / Constants.QUERY_PAGE_SIZE + 2
+                        isLastPage = newsViewModel.headlinesPage == totalPages
+                        if (isLastPage) {
+                            binding.recyclerSearch.setPadding(0, 0, 0, 0)
+                        }
+                    }
+                }
 
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let { message ->
+                        Toast.makeText(activity, "Sorry error: $message", Toast.LENGTH_LONG).show()
+                        showErrorMessage(message)
+                    }
+                }
 
-
-
-
-
-        retryButton.setOnClickListener{
-            if(binding.searchEdit.text.toString().isNotEmpty()){
-                newsViewModel.searchNews(binding.searchEdit.text.toString())
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
             }
-            else{
+        })
+        retryButton.setOnClickListener { view ->
+            if (binding.searchEdit.text.toString().isNotEmpty()) {
+                newsViewModel.searchNews(binding.searchEdit.text.toString())
+            } else {
                 hideErrorMessage()
             }
         }
     }
+
+
     var isError = false
     var isLoading = false
     var isLastPage = false
@@ -109,6 +146,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         errorText.text = message
         isError = true
     }
+
     val scrollListener = object : RecyclerView.OnScrollListener() {
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -141,7 +179,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
         }
     }
-    private fun setupSearchRecycler(){
+
+    private fun setupSearchRecycler() {
         newsAdapter = NewsAdapter()
         binding.recyclerSearch.apply {
             adapter = newsAdapter
@@ -149,3 +188,4 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             addOnScrollListener(this@SearchFragment.scrollListener)
         }
     }
+}
