@@ -2,24 +2,25 @@ package com.example.thenewsapplication.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newsprojectpractice.databinding.FragmentSearchBinding
-import com.example.thenewsapp.adapters.NewsAdapter
 import com.example.thenewsapplication.R
+import com.example.thenewsapplication.adapters.NewsAdapter
+import com.example.thenewsapplication.databinding.FragmentSearchBinding
 import com.example.thenewsapplication.ui.NewsActivity
 import com.example.thenewsapplication.ui.NewsViewModel
 import com.example.thenewsapplication.util.Constants
+import com.example.thenewsapplication.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -42,7 +43,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         retryButton = view.findViewById(R.id.retryButton)
         errorText = view.findViewById(R.id.errorText)
 
-        newsViewModel = (activity as NewsActivity).newsViewModel
+        newsViewModel = (activity as NewsActivity).viewModel
         setupSearchRecycler()
 
         newsAdapter.setOnItemClickListener {
