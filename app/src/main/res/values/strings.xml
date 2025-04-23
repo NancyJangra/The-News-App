@@ -9,5 +9,9 @@
     <string name="title">TITLE</string>
     <string name="description">DESCRIPTION</string>
     <string name="article_image_desc">News article image</string>
+    <string name="search_news">Search news...</string>
+    <string name="search">Search.</string>
+    <string name="search_results">Search results list</string>
+
 
 </resources>

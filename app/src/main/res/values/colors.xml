@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple">#FF6200EE</color>
     <color name="yellow">#FFC000</color>
+    <color name="purple_text">#4A148C</color> <!-- A dark purple -->
+
 </resources>
