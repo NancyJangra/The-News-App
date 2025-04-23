@@ -82,5 +82,6 @@ dependencies {
 
     // Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    ksp("com.github.bumptech.glide:compiler:4.16.0") // Changed from kapt to ksp
-}
+    ksp("com.github.bumptech.glide:compiler:4.16.0")
+
+}// Changed from kapt to ksp
