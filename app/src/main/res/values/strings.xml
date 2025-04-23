@@ -13,6 +13,8 @@
     <string name="search">Search.</string>
     <string name="search_results">Search results list</string>
     <string name="fab_desc">Add to favorites</string>
+    <string name="empty_state_desc">Empty favorites list</string>
+    <string name="no_favorites">No favorites saved yet</string>
 
 
 
