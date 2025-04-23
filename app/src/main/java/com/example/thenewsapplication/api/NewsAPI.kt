@@ -9,7 +9,7 @@ import java.util.Locale.IsoCountryCode
 
 interface NewsAPI {
     @GET("v2/top-headlines")
-    suspend fun gwtHeadlines(
+    suspend fun getHeadlines(
         @Query("country")
         countryCode: String = "us",
         @Query("page")
