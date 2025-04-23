@@ -1,0 +1,24 @@
+Index: app/src/main/java/com/example/thenewsapplication/ui/fragments/ArticleFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.thenewsapplication.ui.fragments\r\n\r\nimport android.os.Bundle\r\nimport android.view.View\r\nimport android.webkit.WebViewClient\r\nimport androidx.fragment.app.Fragment\r\nimport androidx.navigation.fragment.navArgs\r\nimport com.example.thenewsapplication.R\r\nimport com.example.thenewsapplication.databinding.FragmentArticleBinding\r\nimport com.example.thenewsapplication.models.Article\r\nimport com.example.thenewsapplication.ui.NewsActivity\r\nimport com.example.thenewsapplication.ui.NewsViewModel\r\nimport com.google.android.material.snackbar.Snackbar\r\n\r\n\r\nclass ArticleFragment : Fragment(R.layout.fragment_article) {\r\n\r\n    private lateinit var binding: FragmentArticleBinding\r\n    private lateinit var newsViewModel: NewsViewModel\r\n    private val args: ArticleFragmentArgs by navArgs()\r\n\r\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\r\n        super.onViewCreated(view, savedInstanceState)\r\n        binding = FragmentArticleBinding.bind(view)\r\n\r\n        newsViewModel = (activity as NewsActivity).viewModel\r\n        val article = args.article\r\n\r\n        // Initialize WebView\r\n        binding.webView.apply {\r\n            webViewClient = WebViewClient()\r\n            settings.javaScriptEnabled = true\r\n            settings.domStorageEnabled = true\r\n            article.url?.let { url ->\r\n                loadUrl(url)\r\n            }\r\n        }\r\n\r\n        // Set up FAB click listener\r\n        binding.fab.setOnClickListener {\r\n            viewModel.addToFavourites(article)\r\n            Snackbar.make(view, \"Article saved to favorites\", Snackbar.LENGTH_SHORT).show()\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/thenewsapplication/ui/fragments/ArticleFragment.kt b/app/src/main/java/com/example/thenewsapplication/ui/fragments/ArticleFragment.kt
+--- a/app/src/main/java/com/example/thenewsapplication/ui/fragments/ArticleFragment.kt	(revision 3d005d3c7449867bff35f5691f0fc01b1a95cf31)
++++ b/app/src/main/java/com/example/thenewsapplication/ui/fragments/ArticleFragment.kt	(date 1745436694181)
+@@ -38,8 +38,11 @@
+ 
+         // Set up FAB click listener
+         binding.fab.setOnClickListener {
++            val viewModel = null
+             viewModel.addToFavourites(article)
+             Snackbar.make(view, "Article saved to favorites", Snackbar.LENGTH_SHORT).show()
+         }
+     }
+-}
+\ No newline at end of file
++}
++
++private fun Nothing?.addToFavourites(article: Article) {}
