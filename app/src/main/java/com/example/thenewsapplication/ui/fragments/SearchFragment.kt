@@ -23,7 +23,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(R.layout.fragment_search) {
     lateinit var newsViewModel: NewsViewModel
     lateinit var newsAdapter: NewsAdapter
     lateinit var retryButton: Button
@@ -59,15 +59,29 @@ class SearchFragment : Fragment() {
             job = MainScope().launch {
                 delay(SEARCH_NEWS_TIME_DELAY)
                 editable?.let{
-                  if (editable.toString().isNotEmpty()){
-                      newsViewModel.searchNews(editable.toString())
-                  }
+                    if (editable.toString().isNotEmpty()){
+                        newsViewModel.searchNews(editable.toString())
+                    }
                 }
             }
         }
 
 
-        newsViewModel.searchNews.observe()
+        newsViewModel.searchNews.observe(){}
+
+
+
+
+
+
+        retryButton.setOnClickListener{
+            if(binding.searchEdit.text.toString().isNotEmpty()){
+                newsViewModel.searchNews(binding.searchEdit.text.toString())
+            }
+            else{
+                hideErrorMessage()
+            }
+        }
     }
     var isError = false
     var isLoading = false
@@ -132,6 +146,5 @@ class SearchFragment : Fragment() {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
             addOnScrollListener(this@SearchFragment.scrollListener)
+        }
     }
-}
-
