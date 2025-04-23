@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.thenewsapp.adapters.NewsAdapter
 import com.example.thenewsapplication.R
 import com.example.thenewsapplication.adapters.NewsAdapter  // Fixed typo from NewsAdapters
 import com.example.thenewsapplication.databinding.FragmentFavouritesBinding

@@ -3,12 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.FavouritesFragment">
+    android:layout_height="match_parent">
 
-    <!-- Add tools namespace and context -->
-
+    <!-- Your existing views -->
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/favourites_label"
@@ -17,8 +16,30 @@
         android:textColor="@color/purple"
         android:textStyle="bold"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        tools:text="Favourites"/> <!-- Preview text -->
+        android:layout_marginTop="12dp"/>
+
+    <!-- Empty State View -->
+    <LinearLayout
+        android:id="@+id/emptyState"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_empty_state"
+            android:contentDescription="@string/empty_state_desc"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_favorites"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerFavourites"
@@ -26,6 +47,5 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         android:layout_marginStart="8dp"
-        android:contentDescription="@string/favourites_recycler_desc"
-        tools:listitem="@layout/item_news"/> <!-- Add preview item -->
+        android:contentDescription="@string/favourites_recycler_desc"/>
 </FrameLayout>
