@@ -12,6 +12,7 @@ import com.example.thenewsapplication.ui.NewsActivity
 import com.example.thenewsapplication.ui.NewsViewModel
 import com.google.android.material.snackbar.Snackbar
 
+
 class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     private lateinit var binding: FragmentArticleBinding
@@ -22,7 +23,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentArticleBinding.bind(view)
 
-        newsViewModel = (activity as NewsActivity).newsViewModel
+        newsViewModel = (activity as NewsActivity).viewModel
         val article = args.article
 
         // Initialize WebView
@@ -37,7 +38,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
         // Set up FAB click listener
         binding.fab.setOnClickListener {
-            newsViewModel.addToFavourites(article)
+            viewModel.addToFavourites(article)
             Snackbar.make(view, "Article saved to favorites", Snackbar.LENGTH_SHORT).show()
         }
     }
